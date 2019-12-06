@@ -29,28 +29,30 @@ int main(int argc, char *argv[]){
 	ifstream myfile("command.txt");
 	if (myfile.is_open())
 	{
-	while (getline(myfile, line)){
-        if(line == "-v")            
-            vFlag = true;
-        else if(line == "-consts")
-            constsFlag = true;
-        else if(line == "-ids")
-            idsFlag = true;
-        else if(line[0] == '-'){
-            cerr << "UNRECOGNIZED FLAG " << arg << endl;
-            return 0;
-        }		
-        else{ 
-            file.open(line);
-            if( !file.is_open() ) {
-                cerr << "CANNOT OPEN " << arg << endl;
+        while (getline(myfile, line)){
+            if(line == "-v")            
+                vFlag = true;
+            else if(line == "-consts")
+                constsFlag = true;
+            else if(line == "-ids")
+                idsFlag = true;
+            else if(line[0] == '-'){
+                cerr << "UNRECOGNIZED FLAG " << line << endl;
                 return 0;
+            }		
+            else{ 
+                ifstream file;
+                file.open(line);
+                if( !file.is_open() ) {
+                    cerr << "CANNOT OPEN " << line << endl;
+                    return 0;
+                }
+                in = &file;    
             }
-            in = &file;    
-        }
+        }    
 		myfile.close();
     }
-    
+    Lex tok;
     while( (tok=getNextToken(*in, linenum)) != DONE && tok != ERR ) {
     
         if( vFlag )
@@ -100,4 +102,6 @@ int main(int argc, char *argv[]){
     
     return 0;
 }
+
+
     

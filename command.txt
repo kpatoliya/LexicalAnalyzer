@@ -1,0 +1,4 @@
+-v
+-ids
+-iconsts
+"input.txt"
